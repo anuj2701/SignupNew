@@ -1,0 +1,122 @@
+<html>
+<head>
+  <link rel="stylesheet" href="signup.component.scss">
+  <title>Sign Up Page</title>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h1>Create New Account</h1>
+      <h2 class="orh2">or</h2>
+      <a href="/login"> Sign in</a>
+      <div class="line"></div>
+
+
+      <form [formGroup]="signUpForm">
+        <table>
+          <tr>
+            <th></th>
+            <td><p class="table-p">Personal Information</p></td>
+          </tr>
+          <tr>
+            <th>First Name</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="firstname"  type="text" placeholder="Enter Firstname">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Last Name</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="lastname" type="text" placeholder="Enter Lastname">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Company Name</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="companyname" type="text" placeholder="Enter Company Name">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Email<br>This will be your user name</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="email" type="text" placeholder="Enter email">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th></th>
+            <td><p class="table-p">Create your Password</p></td>
+          </tr>
+
+
+          <tr>
+            <th>Password</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="password" type="text" type="text" placeholder="Enter password">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Confirm Password</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="confirmpassword" type="text" placeholder="Enter Confirm Password">
+              </div>
+            </td>
+          </tr>
+          <small *ngIf="signUpForm.hasError('mismatch')">
+            Passwords do not match.
+          </small>
+
+        <tr>
+          <th></th>
+          <td><p class="table-p">Select Industry</p></td>
+        </tr>
+
+          <tr>
+            <th >Industry<br>Optional</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="industry"   type="text" type="text" placeholder="Enter company">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th ></th>
+            <td>
+              <div class="form-line"></div>
+            </td>
+          </tr>
+          <tr>
+            <th></th>
+
+            <td><button (click)="onSignup()" type = "submit">Create Account</button></td>
+          </tr>
+
+
+        </table>
+
+
+
+
+
+      </form>
+    </div>
+    <div class="image-container">
+      <img src="./././assets/login.jpg" alt="Image">
+    </div>
+
+
+  </div>
+</body>
+</html>
+
+

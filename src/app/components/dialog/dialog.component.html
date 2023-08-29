@@ -1,0 +1,55 @@
+<html>
+<head>
+  <link rel="stylesheet" href="dialog.component.scss">
+  <title>Sign Up Page</title>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h1>Add New Internal User</h1>
+      <a href="#"> </a>
+      <div class="line"></div>
+
+
+      <form [formGroup]="AddUserForm">
+        <table>
+          <tr>
+            <th>First Name</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="firstname"  type="text" placeholder="Enter Firstname">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Last Name</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="lastname" type="text" placeholder="Enter Lastname">
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <th>Email</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="email" type="text" placeholder="Enter email">
+              </div>
+            </td>
+          </tr>
+
+          <tr >
+            <th></th>
+            <td><button (click)="AddUser()" class="form-adduser-button" type = "submit">Add User</button><button class="form-cancel-button"><a href="/dashboard">Cancel</a></button></td>
+          </tr>
+        </table>
+      </form>
+    </div>
+
+
+  </div>
+</body>
+</html>
+
+

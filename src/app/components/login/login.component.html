@@ -1,0 +1,37 @@
+<html>
+<head>
+  <link rel="stylesheet" href="login.component.scss">
+  <title>Login Page</title>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <h1>Sign in</h1>
+      <h2 class="signuph2">Don't have an account?<a href="/signup"> Sign up</a></h2>
+
+      <form [formGroup]="loginForm">
+        <label for="username">Email</label>
+        <input formControlName="email"  type="text" id="email" name="email" placeholder="user ID" required>
+        <label for="password">Password</label>
+        <input formControlName="password" type="password" id="password" name="password" placeholder="Password" required>
+        <div class="inline-container">
+        <input type="checkbox" class="inline-input">
+        <h2 class="inline-heading">Always remember me</h2>
+        </div>
+
+        <button (click)="onLogin()" type = "submit">Sign in</button>
+
+
+      </form>
+      <a class="forgota">Forgot Password?</a>
+    </div>
+    <div class="image-container">
+      <img src="./././assets/login.jpg" alt="Image">
+    </div>
+
+
+  </div>
+</body>
+</html>
+
+
