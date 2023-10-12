@@ -5,7 +5,10 @@
 </head>
 <body>
   <div class="container">
+
     <div class="form-container">
+      <a class="close-button"  href="javascript:void(0)"   (click)="Cancelbutton()"><span class="material-icons-outlined"> cancel</span></a>
+
       <h1>Add New Internal User</h1>
       <a href="#"> </a>
       <div class="line"></div>
@@ -14,10 +17,15 @@
       <form [formGroup]="AddUserForm">
         <table>
           <tr>
+            <th></th>
+            <td><p class="table-p">Personal Information</p></td>
+          </tr>
+          <tr>
             <th>First Name</th>
             <td>
               <div class="input-container">
                 <input formControlName="firstname"  type="text" placeholder="Enter Firstname">
+
               </div>
             </td>
           </tr>
@@ -29,20 +37,87 @@
               </div>
             </td>
           </tr>
-
           <tr>
-            <th>Email</th>
+            <th>Company Name</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="companyname" type="text" placeholder="Enter Company Name">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Email<br>This will be your user name</th>
             <td>
               <div class="input-container">
                 <input formControlName="email" type="text" placeholder="Enter email">
               </div>
             </td>
           </tr>
-
-          <tr >
+          <tr>
             <th></th>
-            <td><button (click)="AddUser()" class="form-adduser-button" type = "submit">Add User</button><button class="form-cancel-button"><a href="/dashboard">Cancel</a></button></td>
+            <td><p class="table-p">Create your Password</p></td>
           </tr>
+          <tr>
+            <th></th>
+            <td>
+          <mat-form-field>
+            <mat-label>Select Role</mat-label>
+            <mat-select formControlName="role"  [(value)]="selected">
+              <mat-option value="Admin">Admin</mat-option>
+              <mat-option value="Officer">Officer</mat-option>
+              <mat-option value="Judge">Judge</mat-option>
+              <mat-option value="Attorney">Attorney</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p>You selected: {{selected}}</p>
+        </td>
+        </tr>
+
+          <tr>
+            <th>Password</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="password" type="text" type="text" placeholder="Enter password">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Confirm Password</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="confirmpassword" type="text" placeholder="Enter Confirm Password">
+              </div>
+            </td>
+          </tr>
+          <small *ngIf="AddUserForm.hasError('mismatch')">
+            Passwords do not match.
+          </small>
+
+        <tr>
+          <th></th>
+          <td><p class="table-p">Select Industry</p></td>
+        </tr>
+
+          <tr>
+            <th >Industry<br>Optional</th>
+            <td>
+              <div class="input-container">
+                <input formControlName="industry"   type="text" type="text" placeholder="Enter company">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th ></th>
+            <td>
+              <div class="form-line"></div>
+            </td>
+          </tr>
+          <tr>
+            <th></th>
+
+            <td><button class="form-adduser-button" (click)="onSignup()" type = "submit">Create Account</button><button class="form-cancel-button"  (click)="Cancelbutton()">Cancel</button></td>
+          </tr>
+
         </table>
       </form>
     </div>

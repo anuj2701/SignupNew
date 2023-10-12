@@ -4,13 +4,15 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators }
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
+  selected = 'option2';
   signUpForm!: FormGroup;
   constructor(private fb:FormBuilder,private auth:AuthService,private router:Router){}
 
@@ -19,9 +21,11 @@ export class SignupComponent implements OnInit {
       firstname:['',Validators.required],
       lastname:['',Validators.required],
       companyname:['',Validators.required],
-      email:['',Validators.required,Validators.email],
+      email:['',[Validators.required,Validators.email]],
       password:['',Validators.required],
       confirmpassword:['',Validators.required],
+      role:['',Validators.required],
+      isactive:[true,Validators.required],
       industry:[]
     },{
       validators: this.passwordMatchValidator

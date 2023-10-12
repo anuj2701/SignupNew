@@ -29,7 +29,7 @@ export class EditComponent implements OnInit {
       if(this.EditUserForm.valid){
 
         console.log(this.EditUserForm.value);
-        this.api.Edituser(this.data.id,this.EditUserForm.value)
+        this.api.Edituser(this.EditUserForm.value)
         .subscribe({
           next:(res)=>{
             this.EditUserForm.reset();

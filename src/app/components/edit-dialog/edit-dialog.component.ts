@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/User';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -11,9 +12,17 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class EditDialogComponent implements OnInit{
   EditUserForm!: FormGroup;
+  user!: User;
+  selected = 'Officer';
+
     constructor(@Inject(MAT_DIALOG_DATA) public data: { id: number}, private dialog: MatDialog,private fb:FormBuilder,private router:Router,private api:ApiService){}
 
     ngOnInit() :void{
+      this.api.getUserById(this.data.id).subscribe({
+        next:(res)=>{
+          this.user = res;
+        }
+      })
       this.EditUserForm = this.fb.group({
         id:[`${this.data.id}`],
         firstname:[''],
@@ -21,6 +30,8 @@ export class EditDialogComponent implements OnInit{
         companyName:[''],
         email:[''],
         password:[''],
+        role:[''],
+        isActive:[true],
       });
     }
 
@@ -29,12 +40,12 @@ export class EditDialogComponent implements OnInit{
       if(this.EditUserForm.valid){
 
         console.log(this.EditUserForm.value);
-        this.api.Edituser(this.data.id,this.EditUserForm.value)
+        this.api.Edituser(this.EditUserForm.value)
         .subscribe({
           next:(res)=>{
             this.EditUserForm.reset();
             window.location.reload();
-            alert(res)
+
             // this.AddUserForm.reset();
           },
           error:(err) =>{

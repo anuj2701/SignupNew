@@ -5,6 +5,8 @@ export interface User{
   companyName:string;
   email:string;
   password:string;
+  role:string;
+  isActive:string;
   industry:string;
   token:string;
 }

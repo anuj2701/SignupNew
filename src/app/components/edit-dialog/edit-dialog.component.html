@@ -6,7 +6,8 @@
 <body>
   <div class="container">
     <div class="form-container">
-      <h1>Add New Internal User</h1>
+      <a class="close-button"  href="javascript:void(0)"   (click)="Cancelbutton()"><span class="material-icons-outlined"> cancel</span></a>
+      <h1>Edit User</h1>
       <a href="#"> </a>
       <div class="line"></div>
 
@@ -21,7 +22,7 @@
             <th>First Name</th>
             <td>
               <div class="input-container">
-                <input formControlName="firstname"  type="text" placeholder="Enter Firstname">
+                <input formControlName="firstname" [(ngModel)]="user.firstname" type="text" placeholder="Enter Firstname">
               </div>
             </td>
           </tr>
@@ -29,7 +30,7 @@
             <th>Last Name</th>
             <td>
               <div class="input-container">
-                <input formControlName="lastname" type="text" placeholder="Enter Lastname">
+                <input formControlName="lastname" [(ngModel)]="user.lastName" type="text" placeholder="Enter Lastname">
               </div>
             </td>
           </tr>
@@ -38,10 +39,27 @@
             <th>Email</th>
             <td>
               <div class="input-container">
-                <input formControlName="email"  type="text" placeholder="Enter email">
+                <input formControlName="email" [(ngModel)]="user.email"  type="text" placeholder="Enter email">
               </div>
             </td>
           </tr>
+
+          <tr>
+            <th></th>
+            <td>
+          <mat-form-field>
+            <mat-label>Select Role</mat-label>
+            <mat-select formControlName="role" [(ngModel)]="user.role"  [(value)]="selected">
+              <mat-option value="Admin">Admin</mat-option>
+              <mat-option value="Officer">Officer</mat-option>
+              <mat-option value="Judge">Judge</mat-option>
+              <mat-option value="Attorney">Attorney</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p>You selected: {{selected}}</p>
+        </td>
+        </tr>
+
           <tr>
             <th></th>
             <td><p class="table-p">Change Password</p></td>
@@ -50,7 +68,7 @@
             <th>Password</th>
             <td>
               <div class="input-container">
-                <input formControlName="password"  type="text" placeholder="Enter password">
+                <input formControlName="password"  type="password" placeholder="Enter password">
               </div>
             </td>
           </tr>

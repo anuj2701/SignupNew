@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTable, MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -10,6 +11,8 @@ import { EditComponent } from '../edit/edit.component';
 import {User} from '../../models/User';
 import { UserStoreService } from 'src/app/services/user-store.service';
 import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
+import { ConfirmMatDialogComponent } from '../confirm-mat-dialog/confirm-mat-dialog.component';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -17,36 +20,63 @@ import { EditDialogComponent } from '../edit-dialog/edit-dialog.component';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-
+  public Searchtext:any;
+  public decodedstr:string = "";
   public fullname:string = "";
   public userID:number =0;
-  displayedColumns: string[] = ['Firstname', 'Lastname', 'email','actions'];
+  displayedColumns: string[] = ['Firstname', 'Lastname', 'email','roles','actions','isActivated','IsActive'];
   dataSource :any;
-  public users:any = [];
+  public users:any;
+  public role:string="";
+  public filteredItems:any;
 
   @ViewChild(MatPaginator) paginator !:MatPaginator;
-  constructor(private dialog: MatDialog,private auth:AuthService,private api:ApiService,private router:Router,private userStore:UserStoreService) {this.ngOnInit()}
+  constructor(private dialog: MatDialog,private auth:AuthService,private api:ApiService,private router:Router,private userStore:UserStoreService) {
+
+  }
+
 
     ngOnInit(){
       this.api.getUsers()
       .subscribe(res=>{
         this.users = res;
         this.dataSource = new MatTableDataSource<User>(this.users);
-        this.dataSource.paginator = this.paginator;
-    })
-      this.userStore.getFullNameFromStore()
-      .subscribe(val => {
-        let fullNameFromToken = this.auth.getFullNameFromToken();
-        this.fullname = val || fullNameFromToken;
-        this.userID = parseInt(this.fullname[0]);
-      })
 
+        this.dataSource.paginator = this.paginator;
+
+        let fullNameFromToken = this.auth.getFullNameFromToken();
+        this.decodedstr = fullNameFromToken;
+        this.fullname = this.decodedstr[1];
+        this.userID = parseInt(this.decodedstr[0]);
+        this.role = this.decodedstr[2];
+        if(this.role != "Admin"){
+          this.displayedColumns = ['Firstname', 'Lastname', 'email','roles','isActivated'];
+        }
+
+
+
+    })
 
     }
+
+    applyFilterChanged(event: MatSlideToggleChange) {
+      console.log("activefiltertoggeld")
+      const isChecked = event.checked;
+      if (isChecked) {
+        // Apply the filter logic here (e.g., filter out specific items)
+        this.filteredItems = this.users.filter((item:any) => item.isActive);
+        this.dataSource = new MatTableDataSource<User>(this.filteredItems);
+      } else {
+        // If the filter is turned off, show all items
+        this.filteredItems = this.users;
+        this.dataSource = new MatTableDataSource<User>(this.filteredItems);
+      }
+    }
+
     openDialog() {
       this.dialog.open(DialogComponent, {
         width:'853px',
-        height:'368px',
+        height:'508px',
       });
     }
 
@@ -68,6 +98,7 @@ export class DashboardComponent implements OnInit {
 
     logout(){
       this.auth.signOut();
+      this.fullname = "";
     }
 
     deleteUser(id: number) {
@@ -82,4 +113,54 @@ export class DashboardComponent implements OnInit {
       }
     );
     }
+
+
+    Filterchange(event:Event){
+      const filvalue=(event.target as HTMLInputElement).value;
+      this.dataSource.filter = filvalue;
+
+    }
+
+    confirmToggle(element: any,id: number): void {
+      const dialogRef = this.dialog.open(ConfirmMatDialogComponent, {
+        width: '550px',
+        height: '250px',
+        data:{id: id}
+      });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        // Toggle isActive when the user confirms
+        element.isActive = !element.isActive;
+      }
+    });
+
+  }
+
+
+      toggleChanged(event: MatSlideToggleChange,id:number): void {
+        const isChecked = event.checked;
+        let userObj:any = {
+          "id": id,
+          "isActive": isChecked
+        }
+        // Now, isChecked contains the value (true or false) of the slide toggle
+          this.api.ToggleActive(id,userObj)
+          .subscribe({
+            next:(res)=>{
+              console.log("Active Toggle Fired")
+              window.location.reload();
+            },
+            error:(err) =>{
+              alert(err?.error.message)
+            }
+          });
+
+        }
+
+        ToggleSidebar(){
+
+        }
+
+
 }

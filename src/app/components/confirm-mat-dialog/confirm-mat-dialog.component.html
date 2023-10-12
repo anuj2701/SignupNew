@@ -1,0 +1,19 @@
+<html>
+  <body>
+<h2 mat-dialog-title>Confirmation</h2>
+<mat-dialog-content>
+  Are you sure you want to toggle the activation status?
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No</button>
+  <button mat-button (click)="onYesClick()">Yes</button>
+
+</mat-dialog-actions>
+<ng-container >
+  <h3> IsActive </h3>
+<mat-slide-toggle [(ngModel)]="user" (change)="toggleChanged($event)" checked="{{user.isActive}}">Active</mat-slide-toggle>
+</ng-container>
+
+</body>
+</html>

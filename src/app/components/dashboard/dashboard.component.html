@@ -13,14 +13,16 @@
     <link rel="stylesheet" href="dashboard.component.scss" />
   </head>
   <body>
+
     <div class="grid-container">
       <header class="header">
-        <div class="menu-icon" onclick="openSidebar()">
+        <div class="menu-icon">
           <span class="material-icons-outlined">menu</span>
         </div>
-        <span class="material-icons-outlined"> reorder </span>
+      <span (click)="ToggleSidebar()" class="material-icons-outlined" > reorder </span>
+
         <div class="header-right">
-          Welcome {{fullname[1]}}!
+          Welcome {{fullname}}!
 
           <div class="avatar-dropdown">
             <div class="avatar">
@@ -245,9 +247,6 @@
               />
             </svg>
           </div>
-          <span class="material-icons-outlined" onclick="closeSidebar()"
-            >close</span
-          >
         </div>
 
         <ul class="sidebar-list">
@@ -261,14 +260,29 @@
       </div>
 
 
+
+
       <main class="main-container">
+        <!-- <div class="search-container">
+
+            <input type="text" [(ngModel)]="Searchtext" placeholder="Search.."  name="search"/>
+
+        </div> -->
+        <mat-form-field class="searchbox" >
+          <mat-label>Search..</mat-label>
+          <input matInput placeholder="Search..." (keyup)="Filterchange($event)">
+        </mat-form-field>
+
+
         <div class="main-title">
           <p class="font-weight-bold">Manage User</p>
-          <button (click)="openDialog()" class="adduser-button">
+          <ng-container *ngIf="role === 'Admin'" ><button (click)="openDialog()" class="adduser-button">
             + Add new User
-          </button>
+          </button></ng-container>
+
         </div>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <mat-slide-toggle class="active-toggle"  (change)="applyFilterChanged($event)">Show Active</mat-slide-toggle>
+        <table mat-table [dataSource]="dataSource|filter:Searchtext" class="mat-elevation-z8">
           <ng-container matColumnDef="Firstname">
             <th mat-header-cell *matHeaderCellDef> Firstname </th>
             <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
@@ -280,27 +294,44 @@
           </ng-container>
 
           <!-- Weight Column -->
-          <ng-container matColumnDef="email">
+          <ng-container  matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef> email </th>
             <td mat-cell *matCellDef="let element"> {{element.email}} </td>
           </ng-container>
+            <ng-container  matColumnDef="roles">
+              <th mat-header-cell *matHeaderCellDef> Role </th>
+              <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+            </ng-container>
 
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> actions </th>
-            <td mat-cell *matCellDef="let user"> <a
-              href="javascript:void(0)"
-              (click)="openEditDialog(user.id,user.firstname,user.lastName,user.email,user.password,user.companyName)"
-              style="color: rgba(12, 12, 32, 1)"
-              class="material-icons-outlined"
-              >edit</a>
-              <a
-              href="/dashboard"
-              (click)="deleteUser(user.id)"
-              class="material-icons-outlined"
-              style="color: red"
-              >delete</a
-            ></td>
+            <ng-container  matColumnDef="actions" >
+              <th mat-header-cell *matHeaderCellDef> actions </th>
+              <td mat-cell *matCellDef="let user" > <a
+                href="javascript:void(0)"
+                (click)="openEditDialog(user.id,user.firstname,user.lastName,user.email,user.password,user.companyName)"
+                style="color: rgba(12, 12, 32, 1)"
+                class="material-icons-outlined"
+                >edit</a>
+                <a
+                href="/dashboard"
+                (click)="deleteUser(user.id)"
+                class="material-icons-outlined"
+                style="color: red"
+                >delete</a
+              ></td>
+            </ng-container>
+            <ng-container  matColumnDef="isActivated">
+              <th mat-header-cell *matHeaderCellDef> isActivated </th>
+              <td mat-cell *matCellDef="let element">{{ element.isActive ? 'Activated' : 'Deactivated' }} <a  (click)="confirmToggle(element,element.id)" mat-stroked-button color="accent">Activate</a> </td>
+            </ng-container>
+
+
+
+          <ng-container matColumnDef="IsActive">
+            <th mat-header-cell *matHeaderCellDef> IsActive </th>
+            <td mat-cell *matCellDef="let element"> <mat-slide-toggle (change)="toggleChanged($event,element.id)" checked="{{element.isActive}}">Active</mat-slide-toggle> </td>
           </ng-container>
+
+
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -318,5 +349,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
     <script src="js/scripts.js"></script>
+
   </body>
 </html>

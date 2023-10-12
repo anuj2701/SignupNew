@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http"
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserStoreService } from './user-store.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class AuthService {
 
   private userPayload:any;
 
-  constructor(private http : HttpClient,private router:Router) {
-    this.userPayload = this.decodedToken();
+  constructor(private http : HttpClient,private router:Router,private userStore:UserStoreService) {
+
   }
 
 
@@ -30,6 +31,9 @@ export class AuthService {
   login(loginObj:any){
     return this.http.post<any>(`${this.baseUrl.trim()}authenticate`,loginObj)
   }
+  getUsers(usertoken:string){
+    return this.http.get<any>(`${this.baseUrl}?usertoken=${usertoken}`);
+  }
 
   storeToken(tokenValue:string){
     localStorage.setItem('token',tokenValue)
@@ -38,6 +42,7 @@ export class AuthService {
     return localStorage.getItem('token')
   }
   signOut(){
+    this.userPayload = "";
     localStorage.clear();
     this.router.navigate(['login'])
   }
@@ -53,6 +58,7 @@ export class AuthService {
   }
 
   getFullNameFromToken(){
+    this.userPayload = this.decodedToken();
     if(this.userPayload)
     return this.userPayload.unique_name;
   }
@@ -60,6 +66,13 @@ export class AuthService {
   getUserIdFromToken(){
     if(this.userPayload){
       return this.userPayload.userId;
+    }
+  }
+
+
+  getRoleFromToken(){
+    if(this.userPayload){
+      return this.userPayload.Role;
     }
   }
 

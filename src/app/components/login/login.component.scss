@@ -104,7 +104,7 @@ form{
   width: 300px;
   height: 20px;
   margin-top: 7px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   border: 1px solid rgba(17, 17, 19, 0.2);
   border-radius: 4px;
 }
@@ -136,8 +136,11 @@ margin-top: -1%;
 .forgota{
   margin-left: 28%;
 }
+.text-danger{
+  color: red;
 
 
+}
 .form-container button {
   margin-top: 50px;
   margin-bottom: 35px;

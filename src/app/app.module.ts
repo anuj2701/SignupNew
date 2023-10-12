@@ -11,13 +11,15 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { EditComponent } from './components/edit/edit.component';
 import { MatTable } from '@angular/material/table';
 import { MaterialModule } from './material-module';
 import { EditDialogComponent } from './components/edit-dialog/edit-dialog.component';
+import { FilterPipe } from './components/dashboard/filter.pipe';
+import { ConfirmMatDialogComponent } from './components/confirm-mat-dialog/confirm-mat-dialog.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog.compon
     DialogComponent,
     EditComponent,
     EditDialogComponent,
+    FilterPipe,
+    ConfirmMatDialogComponent,
 
   ],
   imports: [
@@ -37,7 +41,8 @@ import { EditDialogComponent } from './components/edit-dialog/edit-dialog.compon
     MatDialogModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
 
   ],
   providers: [{
